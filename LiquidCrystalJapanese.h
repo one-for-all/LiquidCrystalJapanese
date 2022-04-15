@@ -53,6 +53,7 @@ public:
     void setCursor(uint8_t, uint8_t);
     virtual size_t write(uint8_t);
     size_t print(const char[]);
+    static void translate(const char[], char *);
 
     using Print::print;
     using Print::write;
@@ -65,7 +66,7 @@ private:
     void write4bits(uint8_t);
     void pulseEnable();
     void command(uint8_t);
-    uint8_t getValueForKatakana(const char[]);
+    static uint8_t getValueForKatakana(const char[]);
 
     uint8_t _rs_pin;     // LOW: command.  HIGH: character.
     uint8_t _enable_pin; // activated by a HIGH pulse.

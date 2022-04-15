@@ -127,8 +127,19 @@ void LiquidCrystalJapanese::setCursor(uint8_t col, uint8_t row)
 size_t LiquidCrystalJapanese::print(const char str[])
 {
     const size_t size = strlen(str);
+    char result[size];
+    translate(str, result);
+    return Print::print(result);
+}
+
+/** Translates the {@code str} to corresponding codes for LCD, taking into
+ * account of Japanese characters, and stores them in {@code result}. */
+void LiquidCrystalJapanese::translate(const char str[], char *result)
+{
+    const size_t size = strlen(str);
     size_t cur = 0;
     const uint8_t *buffer = (const uint8_t *)str;
+    size_t result_cur = 0;
     while (size - cur >= 3)
     {
         char katakana[4];
@@ -139,20 +150,21 @@ size_t LiquidCrystalJapanese::print(const char str[])
         {
             cur += 3;
             buffer += 3;
-            write(value);
         }
         else
         {
             cur++;
-            write(*buffer++);
+            value = *buffer++;
         }
+        result[result_cur++] = value;
     }
     while (size - cur >= 1)
     {
         cur++;
-        write(*buffer++);
+        uint8_t value = *buffer++;
+        result[result_cur++] = value;
     }
-    return cur;
+    result[result_cur] = '\0';
 }
 
 uint8_t LiquidCrystalJapanese::getValueForKatakana(const char katakana[])
