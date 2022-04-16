@@ -3,6 +3,7 @@
 
 #include <inttypes.h>
 #include "Print.h"
+#include "KatakanaValue.h"
 
 // commands
 #define LCD_CLEARDISPLAY 0x01
@@ -24,20 +25,6 @@
 #define LCD_4BITMODE 0x00
 #define LCD_2LINE 0x08
 #define LCD_5x8DOTS 0x00
-
-struct KatakanaValue
-{
-    const char katakana[4];
-    uint8_t value;
-};
-
-const KatakanaValue KATAKANA_VALUE_LIST[] = {
-    {"ー", 0b10110000},
-    {"ア", 0b10110001},
-    {"レ", 0b11011010},
-    {"モ", 0b11010011},
-    {"ン", 0b11011101},
-};
 
 /** An LCD interface that is able to print Japanese Katakana characters. */
 class LiquidCrystalJapanese : public Print
